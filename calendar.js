@@ -1,8 +1,6 @@
 
 document.onreadystatechange = () => {
-  if (document.readyState === "complete") {
-    initializeForm();
-  }
+  if (document.readyState === "complete") initializeForm();
 };
 
 function initializeForm() {
@@ -43,8 +41,6 @@ function createCalendarItems(startDate, nofDays, countryCode) {
   moment.modifyHolidays.set(countryName);
 
   let calendarItems = [];
-
-    // Declare variables to use in loop
   let currentMonth, currentYear, firstMonthOfYear, months, startDateCopy, 
     endDateCopy, singleMonth, calendarItem;
 
@@ -74,18 +70,96 @@ function createCalendarItems(startDate, nofDays, countryCode) {
 
   }
 
-  // createCalendarView(calendarItems);
-  console.log(calendarItems);
+  createCalendarView(calendarItems);
 
 }
 
 // Create the calendar view and its elements
 function createCalendarView(calendarItems) {
 
+  let calendarContainer = document.querySelector("#calendarContainer");
+  calendarContainer.innerHTML = "";
+
+  // Create table, style and append to container
+  let calendarElement = document.createElement("table");
+  calendarElement.setAttribute("class", "table mt-5");
+  document.querySelector("#calendarContainer").appendChild(calendarElement);
+
+  // Create head and body of table and append to table
+  let tableHead = document.createElement("thead");
+  let tableBody = document.createElement("tbody");
+  calendarElement.appendChild(tableHead);
+  calendarElement.appendChild(tableBody);
+
+  // Create header row and cells with initials of the days of the week,
+  // style and append to head
+  let headerRow = document.createElement("tr");
+  tableHead.appendChild(headerRow);
+  headerRow.setAttribute("class", "table-light");
+  let daysOfTheWeek = ["S", "M", "T", "W", "T", "F", "S"];
+  for (let i = 0 ; i < daysOfTheWeek.length; i++) {
+    let headerCell = document.createElement("th");
+    headerRow.appendChild(headerCell);
+    headerCell.innerText = daysOfTheWeek[i];
+  }
+
+  let beginning, ending, tableRow, dataCell, weekRowsNumber, rowCounter, 
+    monthDaysCounter, firstDayOfMonth, weekRow, dayCell;
+
+  // Loop through each item in the calendar array, 
+  for (let i = 0; i < calendarItems.length; i++) {
+
+    beginning = calendarItems[i].firstDayOfWeek;
+    ending = calendarItems[i].lastDayInMonth;
+    weekRowsNumber = calendarItems[i].weeksInMonth;
+    rowCounter = 0;
+    monthDaysCounter = 0;
+    firstDayOfMonth = calendarItems[i].firstDayInMonth;
+
+    // Create each header row for month and year and append to table
+    tableRow = document.createElement("tr");
+    tableBody.appendChild(tableRow);
+    tableRow.setAttribute("class", "table-bordered table-info");
+    dataCell = document.createElement("td");
+    tableRow.appendChild(dataCell);
+    dataCell.setAttribute("colspan", "7");
+    dataCell.innerText = calendarItems[i].monthName + " " + calendarItems[i].year;
+
+    for (j = 0; j < weekRowsNumber; j++) { // For each week
+
+      // Create each week row containing cells corresponding to days
+      weekRow = document.createElement("tr");
+      tableBody.appendChild(weekRow);
+      weekRow.setAttribute("class", "table-bordered");
+
+      // Loop 7 times through each week row to create and append "day" cells
+      for (k = 0; k < 7; k++) {
+        dayCell = document.createElement("td");
+        weekRow.appendChild(dayCell);
+        dayCell.setAttribute("class", "bg-secondary");
+
+        if (rowCounter >= beginning) {
+          monthDaysCounter = firstDayOfMonth++;
+
+          if (monthDaysCounter <= calendarItems[i].lastDayInMonth) {
+            dayCell.innerText = monthDaysCounter;
+            dayCell.setAttribute("class", "bg-success");
+            day = moment([calendarItems[i].year,
+              calendarItems[i].month - 1, monthDaysCounter]);
+          }
+          
+        }
+        rowCounter++;
+
+      }
+    }
+
+  }
+
 }
 
 // Object constructor for each calendar item given the month and year
-// startDate equals false if the month is not the first in the range,
+// startDate equals false if the month is not the first month in the range,
 // otherwise it's set to its value (same for endDate)
 // singleMonth equals true if the range selected by the user spans only 1 month  
 function CalendarItem(month, year, startDate, endDate, singleMonth) {
