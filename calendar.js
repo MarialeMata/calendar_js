@@ -153,7 +153,13 @@ function createCalendarView(calendarItems) {
 
       }
     }
-
+    
+    // Add empty row as separator between months
+    let separatorRow = document.createElement("tr");
+    tableBody.appendChild(separatorRow);
+    let separatorCell = document.createElement("td");
+    separatorRow.appendChild(separatorCell);
+    separatorCell.setAttribute("colspan", "7");
   }
 
 }
