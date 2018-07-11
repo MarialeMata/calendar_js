@@ -146,6 +146,10 @@ function createCalendarView(calendarItems) {
             dayCell.setAttribute("class", "bg-success");
             day = moment([calendarItems[i].year,
               calendarItems[i].month - 1, monthDaysCounter]);
+            holiday = day.isHoliday();
+            if (holiday) dayCell.setAttribute("title", holiday);
+            if (k === 0 || k === 6) dayCell.setAttribute("class", "bg-warning");
+            if (holiday) dayCell.setAttribute("class", "bg-danger");
           }
           
         }
@@ -153,7 +157,7 @@ function createCalendarView(calendarItems) {
 
       }
     }
-    
+
     // Add empty row as separator between months
     let separatorRow = document.createElement("tr");
     tableBody.appendChild(separatorRow);
