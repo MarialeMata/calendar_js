@@ -2,11 +2,42 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 	<title>Monthly Calendar</title>
 </head>
 <body>
+
+	<div class="container text-center">
+
+		<h1 class="mt-3">Monthly Calendar</h1>
+
+		<div class="row mt-4">
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				<label for="startDate">Start date:</label>
+				<input type="date" class="form-control" id="startDate">
+			</div>
+			<div class="col-md-2">
+				<label for="nofDays">Number of days:</label>
+				<input type="number" class="form-control" id="nofDays" min="1" value="1">
+			</div>
+			<div class="col-md-2">
+				<label for="countryCode">Country code:</label>
+				<input type="text" class="form-control" id="countryCode" value="US">
+			</div>
+		</div>
+
+		<button class="btn btn-primary mt-4" id="showCalendarButton">Display Calendar</button>
+
+		<div class="row">
+			<div class="col-md-4 mx-auto mt-5" id="calendarContainer">
+			</div>
+		</div>
+		
+	</div>
 	
+	<script src="calendar.js"></script>
 </body>
 </html>
